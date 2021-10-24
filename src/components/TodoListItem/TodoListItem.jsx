@@ -4,7 +4,8 @@ import React, { Component } from "react";
 class TodoListItem extends Component {
 
     state = {
-        done: false
+        done: false,
+        important: false
     }
 
     handleLabelClick = () => {
@@ -13,32 +14,37 @@ class TodoListItem extends Component {
         })
     }
 
-    render() {
-        const { label, important = false } = this.props;
-        const { done } = this.state;
+    handleMarkImportantClick = () => {
+        this.setState({
+            important: true
+        })
+    }
 
-        const style = {
-            color: important ? 'steelblue' : 'black',
-            fontWeight: important ? 'bold' : 'normal',
-        };
+    render() {
+        const { label } = this.props;
+        const { done, important } = this.state;
 
         let classes = "todo-list-item";
         if (done) {
             classes += " done"
         }
+        if (important) {
+            classes += " important"
+        }
+
 
         return (
             <span className={classes}>
             <span
                 className="todo-list-item-label"
-                style={style}
                 onClick={this.handleLabelClick}
             >
                 {label}
             </span>
             <span className="todo-list-item-buttons">
                 <button type="button"
-                        className="btn btn-outline-success btn-small">
+                        className="btn btn-outline-success btn-small"
+                        onClick={this.handleMarkImportantClick}>
                 !
             </button><button type="button"
                              className="btn btn-outline-danger btn-small">
