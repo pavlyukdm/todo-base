@@ -1,6 +1,8 @@
 import TodoList from "./TodoList";
 import AppHeader from "./AppHeader";
 import SearchPanel from "./SearchPanel";
+import './App.css'
+import ItemStatusFilter from "./ItemStatusFilter";
 
 const App = () => {
     const todoData = [
@@ -10,9 +12,12 @@ const App = () => {
     ]
 
     return (
-        <div>
+        <div className="todo-app">
             <AppHeader />
-            <SearchPanel />
+            <div className="search-panel d-flex">
+                <SearchPanel />
+                <ItemStatusFilter />
+            </div>
             <TodoList todos={todoData} />
         </div>
     );
