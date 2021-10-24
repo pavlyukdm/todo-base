@@ -9,15 +9,15 @@ class TodoListItem extends Component {
     }
 
     handleLabelClick = () => {
-        this.setState({
-            done: true
-        })
+        this.setState((state) => ({
+            done: !state.done
+        }));
     }
 
     handleMarkImportantClick = () => {
-        this.setState({
-            important: true
-        })
+        this.setState((state) => ({
+            important: !state.important
+        }));
     }
 
     render() {
