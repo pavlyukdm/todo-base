@@ -1,8 +1,8 @@
-import TodoList from "./TodoList";
-import AppHeader from "./AppHeader";
-import SearchPanel from "./SearchPanel";
+import TodoList from "../TodoList/TodoList";
+import AppHeader from "../AppHeader";
+import SearchPanel from "../SearchPanel/SearchPanel";
 import './App.css'
-import ItemStatusFilter from "./ItemStatusFilter";
+import ItemStatusFilter from "../ItemStatusFilter/ItemStatusFilter";
 
 const App = () => {
     const todoData = [
