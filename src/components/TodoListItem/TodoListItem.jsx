@@ -21,7 +21,7 @@ class TodoListItem extends Component {
     }
 
     render() {
-        const { label } = this.props;
+        const { label, onDeleted } = this.props;
         const { done, important } = this.state;
 
         let classes = "todo-list-item";
@@ -31,7 +31,6 @@ class TodoListItem extends Component {
         if (important) {
             classes += " important"
         }
-
 
         return (
             <span className={classes}>
@@ -47,7 +46,8 @@ class TodoListItem extends Component {
                         onClick={this.handleMarkImportantClick}>
                 !
             </button><button type="button"
-                             className="btn btn-outline-danger btn-small">
+                             className="btn btn-outline-danger btn-small"
+                             onClick={onDeleted}>
                 X
             </button>
             </span>
