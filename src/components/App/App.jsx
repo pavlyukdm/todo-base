@@ -1,8 +1,9 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import TodoList from "../TodoList";
 import AppHeader from "../AppHeader";
 import SearchPanel from "../SearchPanel";
 import ItemStatusFilter from "../ItemStatusFilter";
+import ItemAddForm from "../ItemAddForm";
 import './App.css'
 
 class App extends Component {
@@ -32,6 +33,7 @@ class App extends Component {
                     todos={this.state.todoData}
                     onDeleted={(id) => this.onDeleted(id)}
                 />
+                <ItemAddForm />
             </div>
         );
     }
