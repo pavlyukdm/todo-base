@@ -3,26 +3,8 @@ import React, { Component } from "react";
 
 class TodoListItem extends Component {
 
-    state = {
-        done: false,
-        important: false
-    }
-
-    handleLabelClick = () => {
-        this.setState((state) => ({
-            done: !state.done
-        }));
-    }
-
-    handleMarkImportantClick = () => {
-        this.setState((state) => ({
-            important: !state.important
-        }));
-    }
-
     render() {
-        const { label, onDeleted } = this.props;
-        const { done, important } = this.state;
+        const { label, important, done, onDeleted, onToggleDone, onToggleImportant } = this.props;
 
         let classes = "todo-list-item";
         if (done) {
@@ -36,14 +18,14 @@ class TodoListItem extends Component {
             <span className={classes}>
             <span
                 className="todo-list-item-label"
-                onClick={this.handleLabelClick}
+                onClick={onToggleDone}
             >
                 {label}
             </span>
             <span className="todo-list-item-buttons">
                 <button type="button"
                         className="btn btn-outline-success btn-small"
-                        onClick={this.handleMarkImportantClick}>
+                        onClick={onToggleImportant}>
                 !
             </button><button type="button"
                              className="btn btn-outline-danger btn-small"

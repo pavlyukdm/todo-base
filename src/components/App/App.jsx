@@ -9,9 +9,9 @@ import './App.css'
 class App extends Component {
     state = {
         todoData: [
-            {id: 1, label: 'Learn React', important: true},
-            {id: 2, label: 'Master Redux', important: false},
-            {id: 3, label: 'Build App', important: false},
+            {id: 1, label: 'Learn React', important: true, done: false},
+            {id: 2, label: 'Master Redux', important: false, done: true},
+            {id: 3, label: 'Build App', important: false, done: false},
         ]
     }
 
@@ -19,6 +19,14 @@ class App extends Component {
         this.setState(({todoData}) => {
             return {todoData: todoData.filter((item) => item.id !== id)}
         })
+    }
+
+    onToggleImportant = (id) => {
+        console.log('important', id)
+    }
+
+    onToggleDone = (id) => {
+        console.log('done', id)
     }
 
     onItemAdded = (text) => {
@@ -44,6 +52,8 @@ class App extends Component {
                 <TodoList
                     todos={this.state.todoData}
                     onDeleted={(id) => this.onDeleted(id)}
+                    onToggleImportant ={(id) => this.onToggleImportant(id)}
+                    onToggleDone ={(id) => this.onToggleDone(id)}
                 />
                 <ItemAddControl onItemAdded={this.onItemAdded}
                 />
