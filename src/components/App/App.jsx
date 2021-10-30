@@ -12,7 +12,8 @@ class App extends Component {
       {id: 1, label: 'Learn React', important: true, done: false},
       {id: 2, label: 'Master Redux', important: false, done: true},
       {id: 3, label: 'Build App', important: false, done: false},
-    ]
+    ],
+    term: ''
   }
 
   onDeleted = (id) => {
@@ -52,12 +53,23 @@ class App extends Component {
     this.setState(({todoData}) => {
       return {todoData: [...todoData, newItem]};
     })
-    console.log('click')
+  }
+
+  onSearch = (term) => {
+    this.setState({term})
+  }
+
+  search = (items, term) => {
+    if (term.length === 0) {
+      return items;
+    }
+    return items.filter((item) => item.label.includes(term))
   }
 
 
   render() {
-    const {todoData} = this.state;
+    const {todoData, term} = this.state;
+    const visibleItems = this.search(todoData, term)
     const doneCount = todoData.filter((el) => el.done === true).length;
     const leftTodoCount = todoData.length - doneCount
 
@@ -65,11 +77,11 @@ class App extends Component {
       <div className="todo-app">
         <AppHeader done={doneCount} left={leftTodoCount}/>
         <div className="search-panel d-flex">
-          <SearchPanel/>
+          <SearchPanel onSearch={this.onSearch}/>
           <ItemStatusFilter/>
         </div>
         <TodoList
-          todos={todoData}
+          todos={visibleItems}
           onDeleted={(id) => this.onDeleted(id)}
           onToggleImportant={(id) => this.onToggleImportant(id)}
           onToggleDone={(id) => this.onToggleDone(id)}
