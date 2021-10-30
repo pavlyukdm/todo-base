@@ -1,10 +1,10 @@
 import './AppHeader.css';
 
-const AppHeader = () => {
+const AppHeader = ({ done, left }) => {
     return (
         <div className="app-header d-flex">
             <h1>Todo List</h1>
-            <h2>X more to do, Y done</h2>
+            <h2>{left} more to do, {done} done</h2>
         </div>
     );
 };

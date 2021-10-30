@@ -7,59 +7,78 @@ import ItemAddControl from "../ItemAddControl";
 import './App.css'
 
 class App extends Component {
-    state = {
-        todoData: [
-            {id: 1, label: 'Learn React', important: true, done: false},
-            {id: 2, label: 'Master Redux', important: false, done: true},
-            {id: 3, label: 'Build App', important: false, done: false},
-        ]
-    }
+  state = {
+    todoData: [
+      {id: 1, label: 'Learn React', important: true, done: false},
+      {id: 2, label: 'Master Redux', important: false, done: true},
+      {id: 3, label: 'Build App', important: false, done: false},
+    ]
+  }
 
-    onDeleted = (id) => {
-        this.setState(({todoData}) => {
-            return {todoData: todoData.filter((item) => item.id !== id)}
-        })
-    }
+  onDeleted = (id) => {
+    this.setState(({todoData}) => {
+      return {todoData: todoData.filter((item) => item.id !== id)}
+    })
+  }
 
-    onToggleImportant = (id) => {
-        console.log('important', id)
-    }
+  toggleProperty = (id, prop) => {
+    const idx = this.state.todoData.findIndex(el => el.id === id)
+    this.setState(({todoData}) => ({
+      todoData: [
+        ...todoData.slice(0, idx),
+        {
+          ...todoData[idx],
+          [prop]: !todoData[idx][prop]
+        },
+        ...todoData.slice(idx + 1)
+      ]
+    }))
+  }
 
-    onToggleDone = (id) => {
-        console.log('done', id)
-    }
+  onToggleImportant = (id) => {
+    this.toggleProperty(id, 'important')
+  }
 
-    onItemAdded = (text) => {
-        const newItem = {
-            id: new Date(),
-            label: text,
-            important: false
-        }
-        this.setState(({todoData}) => {
-            return {todoData: [...todoData, newItem]};
-        })
-        console.log('click')
-    }
+  onToggleDone = (id) => {
+    this.toggleProperty(id, 'done')
+  }
 
-    render() {
-        return (
-            <div className="todo-app">
-                <AppHeader/>
-                <div className="search-panel d-flex">
-                    <SearchPanel/>
-                    <ItemStatusFilter/>
-                </div>
-                <TodoList
-                    todos={this.state.todoData}
-                    onDeleted={(id) => this.onDeleted(id)}
-                    onToggleImportant ={(id) => this.onToggleImportant(id)}
-                    onToggleDone ={(id) => this.onToggleDone(id)}
-                />
-                <ItemAddControl onItemAdded={this.onItemAdded}
-                />
-            </div>
-        );
+  onItemAdded = (text) => {
+    const newItem = {
+      id: new Date(),
+      label: text,
+      important: false
     }
+    this.setState(({todoData}) => {
+      return {todoData: [...todoData, newItem]};
+    })
+    console.log('click')
+  }
+
+
+  render() {
+    const {todoData} = this.state;
+    const doneCount = todoData.filter((el) => el.done === true).length;
+    const leftTodoCount = todoData.length - doneCount
+
+    return (
+      <div className="todo-app">
+        <AppHeader done={doneCount} left={leftTodoCount}/>
+        <div className="search-panel d-flex">
+          <SearchPanel/>
+          <ItemStatusFilter/>
+        </div>
+        <TodoList
+          todos={todoData}
+          onDeleted={(id) => this.onDeleted(id)}
+          onToggleImportant={(id) => this.onToggleImportant(id)}
+          onToggleDone={(id) => this.onToggleDone(id)}
+        />
+        <ItemAddControl onItemAdded={this.onItemAdded}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
