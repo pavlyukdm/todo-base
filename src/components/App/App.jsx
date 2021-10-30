@@ -13,7 +13,8 @@ class App extends Component {
       {id: 2, label: 'Master Redux', important: false, done: true},
       {id: 3, label: 'Build App', important: false, done: false},
     ],
-    term: ''
+    term: '',
+    filter: 'all'
   }
 
   onDeleted = (id) => {
@@ -59,6 +60,10 @@ class App extends Component {
     this.setState({term})
   }
 
+  onFilterChange = (filter) => {
+    this.setState({filter})
+  }
+
   search = (items, term) => {
     if (term.length === 0) {
       return items;
@@ -66,10 +71,24 @@ class App extends Component {
     return items.filter((item) => item.label.includes(term))
   }
 
+  filter = (items, filter) => {
+    switch (filter) {
+      case 'all':
+        return items
+      case 'active':
+        return items.filter(item => !item.done)
+      case 'done':
+        return items.filter(item => item.done)
+      default:
+        return items
+    }
+
+  }
+
 
   render() {
-    const {todoData, term} = this.state;
-    const visibleItems = this.search(todoData, term)
+    const {todoData, term, filter} = this.state;
+    const visibleItems = this.filter((this.search(todoData, term)), filter)
     const doneCount = todoData.filter((el) => el.done === true).length;
     const leftTodoCount = todoData.length - doneCount
 
@@ -78,7 +97,8 @@ class App extends Component {
         <AppHeader done={doneCount} left={leftTodoCount}/>
         <div className="search-panel d-flex">
           <SearchPanel onSearch={this.onSearch}/>
-          <ItemStatusFilter/>
+          <ItemStatusFilter filter={filter}
+                            onFilterChange={this.onFilterChange}/>
         </div>
         <TodoList
           todos={visibleItems}
